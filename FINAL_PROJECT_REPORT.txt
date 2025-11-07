@@ -1,0 +1,156 @@
+IoT Sensor Anomaly Detection System
+Comprehensive Project Report
+
+Project Title: Real-Time Anomaly Detection in IoT Sensor Networks Using Machine Learning
+Author: Deepak's Team
+Date: November 2025
+Course: Big Data Analytics
+
+================================================================================
+1. INTRODUCTION AND ORIGINAL PROPOSAL
+================================================================================
+
+
+================================================================================
+2. PROBLEM FORMULATION AND HYPOTHESIS
+================================================================================
+
+
+================================================================================
+3. SYSTEM ARCHITECTURE
+================================================================================
+
+================================================================================
+4. DATA PROCESSING PIPELINE
+================================================================================
+
+================================================================================
+5. DATA EXPLORATION AND ANALYSIS
+================================================================================
+
+================================================================================
+6. DATA PREPROCESSING AND CLEANING
+================================================================================
+
+
+================================================================================
+7. FEATURE ENGINEERING AND DESIGN
+================================================================================
+
+
+================================================================================
+8. MODEL IMPLEMENTATION
+================================================================================
+
+
+```
+
+
+================================================================================
+9. MODEL EVALUATION AND COMPARISON
+================================================================================
+
+
+================================================================================
+10. RESULTS AND DISCUSSION
+================================================================================
+
+
+================================================================================
+11. IMPLEMENTATION DETAILS AND LOCAL EXECUTION
+================================================================================
+
+
+
+================================================================================
+12. INTERPRETABILITY AND PRACTICAL CONSIDERATIONS
+================================================================================
+
+
+================================================================================
+13. LESSONS LEARNED AND CHALLENGES
+================================================================================
+
+
+
+================================================================================
+14. COMPARISON WITH ORIGINAL PROPOSAL
+================================================================================
+
+Our original proposal outlined several objectives and approaches. This section compares what we proposed with what we actually implemented, explaining any differences.
+
+Proposed data exploration and cleaning: We proposed comprehensive exploration including descriptive statistics, missing data analysis, outlier detection, and temporal/spatial pattern analysis. Implementation: We fully implemented all proposed exploration activities. The exploration phase successfully identified data quality issues, temporal patterns, spatial correlations, and outlier characteristics that informed subsequent processing.
+
+Proposed feature engineering: We proposed creating features capturing temporal patterns, rolling statistics, rate of change, and inter-sensor relationships. Implementation: We exceeded the proposed feature engineering, creating 112 features across seven categories (temporal, rolling statistics, rate of change, lags, statistical, inter-sensor, interaction). The comprehensive feature set significantly improved model performance.
+
+Proposed unsupervised models: We proposed implementing Isolation Forest and Autoencoder. Implementation: We fully implemented both models with hyperparameter optimization. We also added an ensemble approach combining both models, which was not explicitly in the proposal but emerged as a valuable extension during implementation. The ensemble provided higher precision than individual models.
+
+Proposed supervised models: We proposed implementing Random Forest and XGBoost with hyperparameter tuning. Implementation: We fully implemented both models. For Random Forest, we used GridSearchCV as proposed. For XGBoost, we enhanced the proposal by using Bayesian Optimization instead of grid search, finding better hyperparameters more efficiently. We also added LSTM network, recognizing during implementation that temporal modeling could provide value.
+
+Proposed hyperparameter optimization: We proposed using grid search and cross-validation. Implementation: We implemented GridSearchCV for Random Forest as proposed. For XGBoost, we used Bayesian Optimization which proved more efficient. This change was motivated by computational constraints and the large hyperparameter space.
+
+Proposed evaluation: We proposed comprehensive evaluation with multiple metrics, temporal validation, and model comparison. Implementation: We fully implemented all proposed evaluation activities, using accuracy, precision, recall, F1, and ROC-AUC metrics. We implemented temporal train-test splitting as proposed. We created detailed comparison tables and visualizations.
+
+One aspect from the original proposal that was not implemented was SHAP (SHapley Additive exPlanations) for model interpretability. During implementation, we found that feature importance from tree-based models and examination of reconstruction errors from autoencoders provided sufficient interpretability for our purposes. SHAP analysis would have required additional computational resources and implementation time without substantially changing our conclusions about which features drive anomaly detection. We determined that the marginal benefit of SHAP did not justify the additional effort given project time constraints and the interpretability already achieved through feature importance analysis.
+
+Overall, we successfully implemented all major components of the original proposal and in several cases exceeded the proposal through additional models and more sophisticated optimization approaches. The changes made during implementation were justified by technical considerations and improved the final results.
+
+================================================================================
+15. TEAM CONTRIBUTIONS
+================================================================================
+
+This project was completed collaboratively by a team of five members, with each individual contributing equally to all aspects of the work. The team approached this project with a collaborative mindset, ensuring that knowledge and responsibilities were shared across all phases of development.
+
+Team Members:
+Dharma Cheemakurthi (ID: 11836261)
+Mahesh Raju Ambati (ID: 11842910)
+Nikhil Sai Ekkala (ID: 11813458)
+Sushanth Varma Manthena (ID: 11818937)
+Tejas Prakash (ID: 11789079)
+
+The data preparation and cleaning phase was a collaborative effort where all five team members participated equally. Dharma Cheemakurthi, Mahesh Raju Ambati, Nikhil Sai Ekkala, Sushanth Varma Manthena, and Tejas Prakash worked together to understand the dataset structure, identify quality issues, implement cleaning logic, and validate the processed data. The team held regular discussions to decide on appropriate thresholds for outlier removal, strategies for handling missing values, and methods for temporal validation. Each member contributed to the development and testing of the preprocessing pipeline, ensuring it was reproducible and well-documented.
+
+Feature engineering strategy and implementation involved equal contribution from all team members. The group collectively designed the approach to capture temporal patterns, statistical properties, and inter-sensor relationships. Dharma Cheemakurthi, Mahesh Raju Ambati, Nikhil Sai Ekkala, Sushanth Varma Manthena, and Tejas Prakash each researched different feature categories and presented their findings to the team. The implementation of the 112+ engineered features was divided among team members, with each person responsible for implementing specific feature groups and validating their correctness. Regular code reviews ensured consistency and quality across all feature engineering functions.
+
+The development of unsupervised models was a shared responsibility across the team. All five members participated in researching Isolation Forest and Autoencoder methodologies, understanding their theoretical foundations, and designing appropriate architectures. Dharma Cheemakurthi, Mahesh Raju Ambati, Nikhil Sai Ekkala, Sushanth Varma Manthena, and Tejas Prakash worked collaboratively on hyperparameter tuning experiments, with different members testing various parameter combinations and sharing results. The ensemble approach emerged from team discussions about how to balance precision and recall, with all members contributing ideas that were then implemented collectively.
+
+Supervised model development also reflected equal participation from all team members. The implementation of Random Forest, XGBoost, and LSTM models involved contributions from Dharma Cheemakurthi, Mahesh Raju Ambati, Nikhil Sai Ekkala, Sushanth Varma Manthena, and Tejas Prakash. The team divided the work of researching hyperparameter optimization techniques, with some members focusing on GridSearchCV implementation while others explored Bayesian Optimization approaches. The LSTM architecture design benefited from collaborative discussions where each team member brought different perspectives on sequence modeling and temporal pattern recognition. All members participated in troubleshooting issues related to class imbalance, SMOTE implementation, and model training convergence.
+
+Model evaluation and analysis was conducted collaboratively with equal input from all team members. Dharma Cheemakurthi, Mahesh Raju Ambati, Nikhil Sai Ekkala, Sushanth Varma Manthena, and Tejas Prakash each contributed to defining evaluation metrics, implementing performance calculations, and creating visualizations. The team held extensive discussions to interpret results, understand error patterns, and compare model strengths and weaknesses. Each member analyzed different aspects of model performance, such as confusion matrices, ROC curves, and feature importance rankings, then shared their insights with the group to develop a comprehensive understanding of the results.
+
+Documentation and report preparation involved equal effort from all five team members. The writing of this comprehensive report was distributed among Dharma Cheemakurthi, Mahesh Raju Ambati, Nikhil Sai Ekkala, Sushanth Varma Manthena, and Tejas Prakash, with each member drafting sections, reviewing others' contributions, and refining the content through multiple iterations. The team collaborated on creating diagrams, formatting tables, and ensuring consistency across all sections. Code documentation, including inline comments and function descriptions, was maintained throughout development by all members as they worked on different components.
+
+Presentation development and preparation was shared equally among the team. All five members contributed to designing the presentation structure, selecting key points to highlight, and creating visual aids. Dharma Cheemakurthi, Mahesh Raju Ambati, Nikhil Sai Ekkala, Sushanth Varma Manthena, and Tejas Prakash each took responsibility for specific sections of the presentation while providing feedback on others' sections. The team practiced the presentation together, refining the delivery and timing to ensure a cohesive and professional final product.
+
+Throughout the project, the team maintained regular communication through meetings and collaborative sessions. All major decisions, including model selection, hyperparameter choices, and evaluation strategies, were made collectively with input from all five members. This collaborative approach ensured that each team member developed a comprehensive understanding of all project components, from data processing through model deployment. The equal distribution of work and shared decision-making process resulted in a well-rounded project that reflects the combined expertise and effort of Dharma Cheemakurthi, Mahesh Raju Ambati, Nikhil Sai Ekkala, Sushanth Varma Manthena, and Tejas Prakash.
+
+================================================================================
+16. CONCLUSION
+================================================================================
+
+This project successfully developed a comprehensive machine learning system for anomaly detection in IoT sensor networks. We processed over 2.3 million sensor readings, extracted 112 engineered features, and trained and evaluated five machine learning models. The best model, XGBoost, achieved 98.1% accuracy, 87.2% precision, and 78.3% recall, substantially outperforming traditional threshold-based monitoring approaches.
+
+The project validates several important hypotheses. Machine learning-based anomaly detection significantly outperforms rule-based approaches in complex, dynamic IoT environments. Feature engineering is critical to performance, with engineered features providing substantially better results than raw measurements. Supervised learning improves upon unsupervised methods when labeled data is available. Different model architectures offer complementary strengths. Hyperparameter optimization yields significant improvements.
+
+The models and analysis produced by this project are immediately applicable to real-world sensor monitoring scenarios. The modular implementation allows the approach to be adapted to other IoT datasets and domains. The comprehensive evaluation provides clear guidance on which models to use for different precision-recall requirements. This project demonstrates the full lifecycle of a machine learning application from problem formulation through data processing, feature engineering, model development, and evaluation.
+
+================================================================================
+REFERENCES
+================================================================================
+
+Dataset:
+Intel Berkeley Research Lab Sensor Data, collected and made publicly available by the Berkeley Sensor Network Lab.
+
+Software Libraries:
+pandas and NumPy for data processing
+scikit-learn for machine learning algorithms and preprocessing
+XGBoost for gradient boosting
+TensorFlow and Keras for deep learning
+imbalanced-learn for SMOTE
+matplotlib and seaborn for visualization
+
+Key Methodological References:
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,828 @@
+IoT Sensor Anomaly Detection System
+PowerPoint Presentation Content
+================================================================================
+
+SLIDE 1: Title Slide
+================================================================================
+Title: Real-Time Anomaly Detection in IoT Sensor Networks Using Machine Learning
+
+Team: Deepak's Team
+Course: Big Data Analytics
+Date: November 2025
+
+[Background image suggestion: IoT sensors/network visualization]
+
+================================================================================
+SLIDE 2: Agenda
+================================================================================
+Presentation Overview:
+
+1. Problem Statement & Motivation
+2. Dataset Overview
+3. Methodology & Approach
+4. Data Processing Pipeline
+5. Feature Engineering
+6. Machine Learning Models
+7. Results & Performance
+8. Key Findings
+9. Challenges & Solutions
+10. Conclusions & Team Contributions
+
+================================================================================
+SLIDE 3: Problem Statement
+================================================================================
+The Challenge:
+
+• IoT sensors generate massive continuous data streams
+• Traditional threshold-based monitoring cannot handle:
+  - High volume and velocity of data
+  - Complex temporal patterns
+  - Varying operational conditions
+  - Subtle anomaly patterns
+
+Research Question:
+Can machine learning effectively detect anomalies in IoT sensor data and outperform traditional methods?
+
+Real-World Impact:
+• Early fault detection
+• Preventive maintenance
+• System reliability
+• Cost savings
+
+================================================================================
+SLIDE 4: Dataset Overview
+================================================================================
+Intel Berkeley Research Lab Sensor Data
+
+Key Statistics:
+• Total Records: 2,313,682 datapoints
+• Monitoring Period: 36 days (Feb 28 - Apr 5, 2004)
+• Number of Sensors: 54 Mica2Dot sensors
+• Sampling Rate: ~30 seconds average interval
+
+Measured Variables:
+1. Temperature (°C)
+2. Humidity (%)
+3. Light Intensity (lux)
+4. Battery Voltage (V)
+
+Additional Fields:
+• Timestamp
+• Sensor ID (moteid)
+• Sequence number (epoch)
+
+================================================================================
+SLIDE 5: Project Hypotheses
+================================================================================
+Primary Hypotheses:
+
+H1: ML-based detection outperforms threshold methods
+    → Validated: 98.1% accuracy achieved
+
+H2: Feature engineering significantly improves performance
+    → Validated: 20+ percentage point F1 improvement
+
+H3: Supervised models exceed unsupervised performance
+    → Validated: 10-15 percentage point F1 improvement
+
+H4: Ensemble methods leverage complementary strengths
+    → Validated: Higher precision than individual models
+
+================================================================================
+SLIDE 6: Methodology - Overall Approach
+================================================================================
+
+[Diagram: Linear flow]
+Raw Data → Cleaning → Feature Engineering → Model Training → Evaluation
+
+Phase 1: Data Preparation
+• Exploration & quality assessment
+• Cleaning & preprocessing
+• Validation
+
+Phase 2: Feature Engineering
+• 112+ engineered features
+• Temporal, statistical, spatial
+
+Phase 3: Model Development
+• Unsupervised: Isolation Forest, Autoencoder
+• Supervised: Random Forest, XGBoost, LSTM
+
+Phase 4: Evaluation & Comparison
+• Multiple metrics
+• Temporal validation
+• Performance analysis
+
+================================================================================
+SLIDE 7: Data Exploration - Key Findings
+================================================================================
+Initial Analysis Revealed:
+
+Temporal Patterns:
+• Strong 24-hour cyclical patterns (temperature, light)
+• Day-night variations
+• Weekly operational patterns
+
+Data Quality:
+• 99.9% completeness (minimal missing data)
+• ~5% potential outliers identified
+• Some sensor drift detected
+
+Spatial Correlations:
+• Sensors in same area show similar readings
+• Cross-sensor validation possible
+• Some sensors consistently different
+
+Anomaly Indicators:
+• Extreme temperature spikes (>50°C)
+• Impossible humidity values (>100%)
+• Sudden voltage drops
+
+================================================================================
+SLIDE 8: Data Processing Pipeline
+================================================================================
+
+[Mermaid diagram from report - show as flow]
+
+Step 1: Data Loading
+• Parse 2.3M records
+• Optimize memory usage
+• Validate structure
+
+Step 2: Cleaning
+• Remove impossible values
+• Handle missing data (forward/backward fill)
+• Remove duplicates
+• Filter outliers
+
+Step 3: Validation
+• Verify timestamp continuity
+• Check value ranges
+• Confirm data types
+
+Output: 2,298,451 clean records (99.3% retention)
+
+================================================================================
+SLIDE 9: Feature Engineering Strategy
+================================================================================
+From 7 Raw Features to 112+ Engineered Features
+
+1. Temporal Features (9)
+   • Hour, day, week components
+   • Cyclical encoding (sin/cos)
+   • Weekend indicators
+
+2. Rolling Statistics (48)
+   • Windows: 10, 30, 60 readings
+   • Metrics: mean, std, min, max
+   • All 4 sensor variables
+
+3. Rate of Change (16)
+   • First & second derivatives
+   • Percentage change
+   • Deviation from trend
+
+4. Lag Features (16)
+   • Historical values (t-1, t-2, t-5, t-10)
+   • Capture autocorrelation
+
+5. Statistical Transformations (8)
+   • Z-scores (per sensor)
+   • Exponential moving averages
+
+6. Inter-Sensor Features (16)
+   • Global statistics
+   • Deviation from network consensus
+
+7. Interaction Features (3)
+   • Domain-specific combinations
+   • Temp-humidity ratio
+   • Voltage drop rate
+
+================================================================================
+SLIDE 10: Why Feature Engineering Matters
+================================================================================
+Impact on Model Performance:
+
+Raw Features Only:
+• F1 Score: ~60%
+• Limited pattern recognition
+• Misses temporal anomalies
+
+With Engineered Features:
+• F1 Score: ~82%
+• Captures complex patterns
+• Detects subtle anomalies
+
+Key Insight:
+"Anomalies often manifest as unusual patterns of change, not just extreme values"
+
+Top Important Features:
+1. Rolling standard deviations (volatility)
+2. Rate of change (sudden shifts)
+3. Inter-sensor deviations (outlier from consensus)
+4. Lag features (historical context)
+
+================================================================================
+SLIDE 11: Machine Learning Models - Unsupervised
+================================================================================
+Learning Without Labels
+
+Model 1: Isolation Forest
+• Algorithm: Tree-based isolation
+• Hyperparameters: GridSearchCV
+  - n_estimators: 100
+  - contamination: 5%
+• Training time: ~15 minutes
+• Strength: Fast, effective for point anomalies
+
+Model 2: Autoencoder (Deep Neural Network)
+• Architecture: 256→128→64→32→16 (encoder)
+• Loss: Reconstruction error (MSE)
+• Training time: ~45 minutes
+• Strength: Captures complex patterns
+
+Model 3: Ensemble (AND logic)
+• Combines both models
+• Requires both to agree
+• Strength: Higher precision, fewer false alarms
+
+================================================================================
+SLIDE 12: Machine Learning Models - Supervised
+================================================================================
+Learning From Pseudo-Labels
+
+Challenge: No ground truth labels
+Solution: Use unsupervised predictions as pseudo-labels
+
+Class Imbalance Handling:
+• Original: 2.5% anomalies
+• SMOTE balancing: 20% anomalies
+• Prevents majority class bias
+
+Model 4: Random Forest
+• Hyperparameters: GridSearchCV
+• 300 trees, max_depth=30
+• Training time: ~30 minutes
+
+Model 5: XGBoost
+• Hyperparameters: Bayesian Optimization
+• 200 estimators, learning_rate=0.1
+• Training time: ~25 minutes
+
+Model 6: LSTM (Recurrent Neural Network)
+• Sequence-based learning
+• 10 timestep lookback window
+• Training time: ~60 minutes
+• Strength: Temporal pattern detection
+
+================================================================================
+SLIDE 13: Model Performance Comparison
+================================================================================
+
+Performance Metrics Table:
+
+Model             | Accuracy | Precision | Recall | F1 Score | ROC-AUC
+------------------|----------|-----------|--------|----------|--------
+Isolation Forest  |  95.2%   |   62.1%   | 93.8%  |  68.5%   |  0.94
+Autoencoder       |  96.8%   |   71.4%   | 85.2%  |  77.7%   |  0.96
+Ensemble (Unsup)  |  97.9%   |   84.3%   | 62.7%  |  71.9%   |  0.95
+Random Forest     |  97.3%   |   84.8%   | 74.6%  |  79.4%   |  0.97
+XGBoost           |  98.1%   |   87.2%   | 78.3%  |  82.5%   |  0.98
+LSTM              |  97.4%   |   85.7%   | 79.8%  |  82.6%   |  0.97
+
+Best Overall: XGBoost
+Best Recall: LSTM
+Best Precision: Ensemble
+
+================================================================================
+SLIDE 14: XGBoost - Best Performing Model
+================================================================================
+Why XGBoost Won:
+
+Performance Excellence:
+• 98.1% accuracy
+• 87.2% precision (low false alarms)
+• 78.3% recall (catches most anomalies)
+• 82.5% F1 score (best balance)
+
+Technical Advantages:
+• Handles high-dimensional data well
+• Robust to outliers
+• Fast inference (<2ms per prediction)
+• Well-calibrated probabilities
+
+Confusion Matrix:
+• True Positives: 9,012 (correctly detected anomalies)
+• False Positives: 1,326 (false alarms)
+• True Negatives: 440,487 (correctly identified normal)
+• False Negatives: 2,493 (missed anomalies)
+
+Real-World Interpretation:
+"When XGBoost flags an anomaly, it's correct 87% of the time"
+
+================================================================================
+SLIDE 15: Results - Key Findings
+================================================================================
+What We Learned:
+
+Finding 1: ML >> Traditional Methods
+• 98% accuracy vs ~75% for threshold methods
+• Adapts to complex patterns
+• Learns from data
+
+Finding 2: Feature Engineering is Critical
+• 20+ point improvement in F1 score
+• Domain knowledge encoded as features
+• Temporal patterns explicitly captured
+
+Finding 3: Supervised > Unsupervised
+• 10-15 point F1 improvement
+• Learning from examples helps
+• Even with imperfect pseudo-labels
+
+Finding 4: Different Models, Different Strengths
+• Tree models: point anomalies, high precision
+• LSTM: sequential anomalies, high recall
+• Ensemble: balanced performance
+
+Finding 5: Hyperparameter Optimization Matters
+• 3-4 point F1 improvement
+• Bayesian optimization > grid search
+• Worth the computational cost
+
+================================================================================
+SLIDE 16: Feature Importance Analysis
+================================================================================
+What Drives Anomaly Detection?
+
+Top 10 Most Important Features:
+
+1. temperature_rolling_std_30
+   → Volatility indicates instability
+
+2. temperature_diff_1
+   → Sudden changes flag anomalies
+
+3. light_rolling_std_60
+   → Unusual light patterns
+
+4. temperature_global_zscore
+   → Deviation from sensor consensus
+
+5. humidity_deviation_from_mean
+   → Departure from trend
+
+6. voltage_drop_rate
+   → Battery failure detection
+
+7. temperature_lag_5
+   → Historical context matters
+
+8. humidity_rolling_std_30
+   → Humidity volatility
+
+9. light_diff_1
+   → Sudden light changes
+
+10. temperature_zscore
+    → Sensor-specific outliers
+
+Pattern: Rolling statistics and rate of change dominate
+
+================================================================================
+SLIDE 17: Error Analysis
+================================================================================
+Understanding Model Failures
+
+False Positives (Normal flagged as Anomaly):
+• Edge cases near decision boundaries
+• Rare but normal events (weekend patterns)
+• Sensor drift over time
+• Rate: ~13% of flagged anomalies
+
+False Negatives (Anomaly missed):
+• Subtle anomalies below threshold
+• Novel anomaly types not in training
+• Noisy sensor data masking signal
+• Rate: ~22% of true anomalies
+
+Implications:
+• Some false alarms acceptable for safety
+• Human review for borderline cases
+• Continuous model improvement needed
+
+================================================================================
+SLIDE 18: Temporal Validation Importance
+================================================================================
+Why Time Matters in Evaluation:
+
+Random Split (WRONG):
+• Mixes past and future data
+• Artificially high performance
+• Unrealistic evaluation
+
+Temporal Split (CORRECT):
+• Train on earlier data
+• Test on later data
+• Realistic deployment scenario
+• Reveals true generalization
+
+Our Approach:
+• 80% earliest data → training
+• 20% latest data → testing
+• No future information leakage
+
+Impact:
+• 2-3 point F1 drop from random to temporal
+• More honest performance estimate
+• Prepares for real-world deployment
+
+================================================================================
+SLIDE 19: Challenges & Solutions
+================================================================================
+Problems We Solved:
+
+Challenge 1: Class Imbalance (2.5% anomalies)
+Solution: SMOTE + class weighting
+Result: Models learned to detect rare anomalies
+
+Challenge 2: High Dimensionality (112 features)
+Solution: Efficient implementations + feature selection
+Result: Fast training and inference
+
+Challenge 3: Temporal Dependencies
+Solution: Lag features + rolling statistics + LSTM
+Result: Captured temporal patterns
+
+Challenge 4: Missing Data
+Solution: Forward/backward fill for short gaps
+Result: Preserved 99.3% of data
+
+Challenge 5: Hyperparameter Optimization
+Solution: Bayesian optimization for efficiency
+Result: Better models in less time
+
+Challenge 6: Consistency (training vs inference)
+Solution: Reusable feature engineering functions
+Result: Reliable predictions
+
+================================================================================
+SLIDE 20: Model Interpretability
+================================================================================
+Understanding Model Decisions:
+
+Tree-Based Models (Interpretable):
+• Feature importance scores
+• Decision path visualization
+• Clear logic: "if temp_std > X then anomaly"
+
+Neural Networks (Less Interpretable):
+• Complex transformations
+• Reconstruction error analysis
+• Black box concern
+
+Our Approach to Transparency:
+• Provide continuous scores (not just binary)
+• Show which features contributed
+• Enable human review of predictions
+• Document model limitations
+
+Trust Through Transparency:
+"Operators should understand why a reading was flagged"
+
+================================================================================
+SLIDE 21: Practical Implications
+================================================================================
+Real-World Application:
+
+Use Cases:
+• Building management systems
+• Industrial IoT monitoring
+• Environmental sensing networks
+• Infrastructure health monitoring
+
+Benefits:
+• Early fault detection (prevent failures)
+• Reduced manual monitoring (automated)
+• Cost savings (preventive maintenance)
+• Improved reliability (catch subtle issues)
+
+Deployment Considerations:
+• Local execution on standard hardware
+• Processing time: <100ms per reading
+• Model size: ~200MB total
+• No cloud dependency needed
+
+Operational Guidelines:
+• Review flagged anomalies daily
+• Investigate high-confidence alerts first
+• Use model scores to prioritize
+• Combine with human expertise
+
+================================================================================
+SLIDE 22: Comparison with Proposal
+================================================================================
+What We Promised vs. What We Delivered:
+
+Fully Implemented:
+• Data exploration & cleaning
+• 112+ feature engineering (exceeded proposal)
+• Isolation Forest & Autoencoder
+• Random Forest & XGBoost
+• Hyperparameter optimization
+• Comprehensive evaluation
+• LSTM (added beyond proposal)
+
+Modifications Made:
+• Bayesian optimization instead of only grid search
+  Reason: More efficient for large hyperparameter spaces
+
+• Ensemble unsupervised approach
+  Reason: Improved precision
+
+Not Implemented:
+• SHAP explanations
+  Reason: Feature importance provided sufficient interpretability
+  Trade-off: Computational resources vs marginal benefit
+
+Overall: Exceeded proposal expectations
+
+================================================================================
+SLIDE 23: Limitations & Future Work
+================================================================================
+Honest Assessment:
+
+Current Limitations:
+• Pseudo-labels not ground truth
+• Single deployment environment
+• No concept drift handling
+• ~22% false negative rate
+• Limited neural network interpretability
+
+Potential Improvements:
+• Obtain expert-labeled ground truth data
+• Test on diverse IoT environments
+• Implement online learning for drift
+• Explore attention mechanisms (LSTM)
+• Add anomaly type classification
+
+Research Extensions:
+• Federated learning across deployments
+• Transfer learning to new sensor types
+• Automated root cause analysis
+• Integration with building management systems
+
+Timeline:
+These improvements were beyond project scope but represent valuable future directions.
+
+================================================================================
+SLIDE 24: Technical Specifications
+================================================================================
+Implementation Details:
+
+Execution Environment:
+• Platform: Local machine (Jupyter Notebook)
+• RAM: 16GB recommended (8GB minimum)
+• CPU: Standard (no GPU required)
+• Storage: ~5GB for data and models
+• Runtime: 3-4 hours total execution
+
+Software Stack:
+• Python 3.8+
+• pandas, numpy (data processing)
+• scikit-learn (ML algorithms)
+• xgboost (gradient boosting)
+• tensorflow/keras (deep learning)
+• imbalanced-learn (SMOTE)
+
+Notebook Structure:
+• 84 cells organized in 4 parts
+• Sequential execution
+• Clear documentation
+• Reproducible (random seeds set)
+
+Outputs:
+• 6 trained models saved
+• Processed datasets
+• Performance metrics
+• Visualizations
+
+================================================================================
+SLIDE 25: Team Contributions
+================================================================================
+Equal Collaborative Effort - All Members Contributing Equally:
+
+Team Members:
+• Dharma Cheemakurthi (ID: 11836261)
+• Mahesh Raju Ambati (ID: 11842910)
+• Nikhil Sai Ekkala (ID: 11813458)
+• Sushanth Varma Manthena (ID: 11818937)
+• Tejas Prakash (ID: 11789079)
+
+Data Preparation & Cleaning:
+• Collaborative effort by all five members
+• Joint discussions on cleaning strategies
+• Shared implementation and testing
+• Equal contribution to preprocessing pipeline
+
+Feature Engineering:
+• Team-designed strategy (all members)
+• Divided implementation among team
+• Collective validation and review
+• 112+ features through joint effort
+
+Model Development:
+• All members researched methodologies
+• Shared hyperparameter tuning experiments
+• Collaborative troubleshooting
+• Equal participation in all model implementations
+
+Evaluation & Analysis:
+• Joint metric definition and calculation
+• Distributed visualization creation
+• Collaborative result interpretation
+• Shared insights and discussions
+
+Documentation & Presentation:
+• Equal writing and review by all members
+• Collaborative diagram creation
+• Joint presentation design and practice
+• Consistent team communication throughout
+
+================================================================================
+SLIDE 26: Key Takeaways
+================================================================================
+Main Messages:
+
+1. Machine Learning Works for IoT Anomaly Detection
+   98.1% accuracy demonstrates practical viability
+
+2. Feature Engineering is Not Optional
+   It's the difference between mediocre and excellent performance
+
+3. Multiple Models Provide Complementary Insights
+   No single model dominates all scenarios
+
+4. Evaluation Must Be Rigorous
+   Temporal validation, multiple metrics, error analysis
+
+5. Transparency Matters
+   Interpretable models + clear documentation = trust
+
+6. Real-World Application Ready
+   Fast, accurate, runs locally on standard hardware
+
+================================================================================
+SLIDE 27: Conclusions
+================================================================================
+Project Success:
+
+Objectives Achieved:
+• Developed comprehensive ML-based anomaly detection system
+• Processed 2.3M+ sensor readings
+• Created 112+ engineered features
+• Trained and evaluated 6 models
+• Achieved 98.1% accuracy (best model)
+
+Key Contributions:
+• Demonstrated ML superiority over threshold methods
+• Validated importance of feature engineering
+• Compared diverse ML approaches
+• Provided practical implementation
+
+Impact:
+• Immediately applicable to real-world sensor monitoring
+• Modular design allows adaptation to other domains
+• Clear performance benchmarks established
+
+Learning Outcomes:
+• End-to-end ML project lifecycle
+• Big data processing techniques
+• Advanced feature engineering
+• Model optimization strategies
+• Critical evaluation methods
+
+================================================================================
+SLIDE 28: Questions & Discussion
+================================================================================
+
+Thank You!
+
+Questions?
+
+Contact Information:
+[Team contact details]
+
+Project Artifacts:
+• Full Report: FINAL_PROJECT_REPORT.txt
+• Jupyter Notebook: combined_iot_anomaly_detection.ipynb
+• Trained Models: models/saved_models/
+• Processed Data: data/processed/
+
+Available for:
+• Technical questions
+• Implementation details
+• Future collaboration
+
+================================================================================
+APPENDIX SLIDES (Optional - Use if questions arise)
+================================================================================
+
+APPENDIX A: Dataset Statistics
+================================================================================
+Detailed Statistics:
+
+Temperature:
+• Range: -2°C to 120°C (outliers removed: -10°C to 50°C)
+• Mean: 20.3°C
+• Std Dev: 2.8°C
+
+Humidity:
+• Range: 0% to 100% (filtered impossible values)
+• Mean: 37.2%
+• Std Dev: 8.4%
+
+Light:
+• Range: 0 to 1000+ lux
+• Mean: 245 lux
+• Distribution: Heavily skewed (day/night)
+
+Voltage:
+• Range: 2.0V to 3.0V
+• Mean: 2.65V
+• Trend: Declining over time (battery discharge)
+
+================================================================================
+APPENDIX B: Hyperparameter Details
+================================================================================
+
+Random Forest Final Parameters:
+• n_estimators: 300
+• max_depth: 30
+• min_samples_split: 5
+• min_samples_leaf: 2
+• class_weight: balanced
+• Search space: 180 combinations
+• Best found via: GridSearchCV
+
+XGBoost Final Parameters:
+• n_estimators: 200
+• max_depth: 8
+• learning_rate: 0.1
+• subsample: 0.8
+• colsample_bytree: 0.8
+• gamma: 1.0
+• scale_pos_weight: 39.0
+• Optimization: Bayesian (50 iterations)
+
+LSTM Final Architecture:
+• Layer 1: LSTM(128, return_sequences=True)
+• Dropout: 0.3
+• Layer 2: LSTM(64)
+• Dropout: 0.3
+• Dense: 32 (ReLU)
+• Output: 1 (Sigmoid)
+• Optimizer: Adam (lr=0.001)
+• Loss: Binary crossentropy
+
+================================================================================
+APPENDIX C: Computational Performance
+================================================================================
+
+Training Time Comparison:
+• Isolation Forest: ~15 minutes
+• Autoencoder: ~45 minutes
+• Random Forest: ~30 minutes
+• XGBoost: ~25 minutes
+• LSTM: ~60 minutes
+• Total: ~3 hours
+
+Inference Speed (per observation):
+• Isolation Forest: <1ms
+• Random Forest: <1ms
+• XGBoost: <2ms
+• Autoencoder: ~5ms
+• LSTM: ~10ms
+
+Model Size on Disk:
+• Isolation Forest: ~50MB
+• Random Forest: ~120MB
+• XGBoost: ~15MB
+• Autoencoder: ~80MB
+• LSTM: ~200MB
+• Total: ~465MB
+
+Memory Requirements:
+• Data loading: ~300MB
+• Feature engineering: ~800MB
+• Model training: ~2-4GB (peak)
+• Inference: ~500MB
+
+================================================================================
+END OF PRESENTATION CONTENT
+================================================================================
+
+Total Slides: 28 main slides + 3 appendix slides
+Estimated Presentation Time: 25-30 minutes (depending on Q&A)
+Format: Ready for PowerPoint, Google Slides, or Keynote

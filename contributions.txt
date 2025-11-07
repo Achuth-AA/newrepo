@@ -1,0 +1,41 @@
+TEAM CONTRIBUTIONS - IoT Sensor Anomaly Detection Project
+================================================================================
+
+This document details the specific contributions of each team member to the project. All members contributed equally and collaboratively throughout all phases.
+
+================================================================================
+
+================================================================================
+COLLABORATIVE ACTIVITIES (ALL MEMBERS)
+================================================================================
+
+All five team members participated equally in:
+
+• Regular team meetings for project planning and progress review
+• Collaborative decision-making on model selection and evaluation metrics
+• Joint debugging and troubleshooting of implementation issues
+• Peer review of code, analysis, and documentation
+• Presentation rehearsal and refinement
+• Integration testing to ensure all components work together
+• Final quality assurance and report proofreading
+
+The team maintained continuous communication throughout the project, ensuring that all members understood every component and contributed to all major decisions. While specific tasks were divided for efficiency, knowledge was shared across the entire team through regular discussions and code reviews.
+
+================================================================================
+SUMMARY
+================================================================================
+
+This project represents the collective effort of all five team members:
+- Dharma Cheemakurthi
+- Mahesh Raju Ambati
+- Nikhil Sai Ekkala
+- Sushanth Varma Manthena
+- Tejas Prakash
+
+Each member contributed equally across data preparation, feature engineering, model development, evaluation, and documentation. The success of this project is the result of effective collaboration, shared expertise, and coordinated teamwork throughout all phases of development.
+
+Total Effort: Equal distribution across all team members (20% each)
+
+================================================================================
+END OF CONTRIBUTIONS DOCUMENT
+================================================================================
